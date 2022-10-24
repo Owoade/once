@@ -1,15 +1,48 @@
-import { flutterwave, paystack } from "./sdks/initializer";
+import { flutterwave, paystack, once } from "./sdks/initializer";
 import crypto from "node:crypto";
+import express, { Request, Response } from "express";
+import mongoose from "mongoose";
+import { config } from "dotenv";
+import { OnceProvider } from "./sdks/once";
+import Transaction from "./models/transaction";
 
-(async function () {
-//   const data = await flutterwave.initializeTransaction({
-//     tx_ref: crypto.randomUUID(),
-//     amount: "20000",
-//     currency: "NGN",
-//     redirect_url: "https://hamkaze-api.herokuapp.com/payment-webhook",
-//     customer: { name: "Owoade", email: "owoadeanu@pyvot.com" },
-//   });
-  const data = await paystack.transaction.initialize( { amount: "30000", reference: crypto.randomUUID(), email: "hello@hooli.com", callback_url: "https://hamkaze-api.herokuapp.com/payment-webhook" } );
-  const verification= await paystack.transaction.verify("5c54d401-5c32-4797-8c71-32775846c86b")
-  console.log(data);
-})();
+config(); 
+
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+const PORT = 3000 ?? process.env.PORT;
+
+app.post("/init", async( req: Request, res: Response )=>{
+  const { amount } = req.body;
+  const checkout = await once.initialize( parseInt(amount) );
+
+  res.json( checkout )
+
+})
+
+app.get("/checkout", async( req: Request, res: Response )=>{
+  const { provider, id } = req.query;
+
+  const providerCheckout = await once.getProviderCheckout( provider as OnceProvider, id as string )
+
+  res.json( providerCheckout );
+})
+
+app.patch( "/update-transaction", async( req: Request, res: Response )=>{
+  const update = req.body?.update;
+  const id = req.body.id;
+
+  const updatedTransaction = await Transaction.findByIdAndUpdate( id, update, { new: true });
+  res.json({ message: "successfull" })
+})
+
+const promiseArr = [ mongoose.connect(process.env.MONGO_DB_URL as string), app.listen(PORT) ];
+
+Promise.all( promiseArr )
+.then( ()=> console.log("Server is up and running") )
+
+
+

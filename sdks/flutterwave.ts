@@ -22,6 +22,7 @@ export class Flutterwave {
         "Content-Type" : "application/json",
       },
     };
+   console.log("initialized flutterwave class") 
   }
 
   async initializeTransaction(transactionRequest: FlutterWaveTransactionInit) {
@@ -70,7 +71,7 @@ interface FlutterwaveVerification {
   };
 }
 
-interface FlutterWaveTransactionInit {
+export interface FlutterWaveTransactionInit {
     tx_ref: string,
     amount: string;
     currency: string;
