@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "nodemon --exec ts-node index.ts",
-    "start2": "ts-node index.ts"
+    "start2": "node index"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
