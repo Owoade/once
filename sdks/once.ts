@@ -11,6 +11,7 @@ export class Once {
   private readonly redirectUrl = "https://checkout.once.com/verify";
 
   async initialize(amount: number) {
+    
     const transactionReference = crypto.randomUUID();
 
     const data = {
