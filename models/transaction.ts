@@ -18,6 +18,9 @@ const transactionSchema = new mongoose.Schema({
     ref: {
         type: String,
         required: true
+    },
+    access_code:{
+        type: String
     }
 }, { timestamps: true } )
 

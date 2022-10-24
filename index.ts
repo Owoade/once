@@ -5,10 +5,27 @@ import mongoose from "mongoose";
 import { config } from "dotenv";
 import { OnceProvider } from "./sdks/once";
 import Transaction from "./models/transaction";
+import http from "http";
+import { Server } from "socket.io"
 
 config(); 
 
 const app = express();
+
+const server = http.createServer(app);
+
+const io = new Server( server );
+
+const transactionNamspace = io.of("/transaction");
+
+transactionNamspace.on("connection", ( socket )=>{
+  console.log(" socket connected ")
+  socket.on( "transaction-init", ( transactionRef: string )=>{
+    socket.join(transactionRef)
+  })
+})
+
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -37,6 +54,18 @@ app.patch( "/update-transaction", async( req: Request, res: Response )=>{
 
   const updatedTransaction = await Transaction.findByIdAndUpdate( id, update, { new: true });
   res.json({ message: "successfull" })
+})
+
+app.post("/payment-webhook-ps", async( req: Request, res: Response )=>{
+  console.log( "Webhook sent from paystack")
+  console.log( req.body )
+  res.end();
+})
+
+app.post("/payment-webhook", async( req: Request, res: Response )=>{
+  console.log( "Webhook sent from flutterwave");
+  console.log(req.body)
+  res.end();
 })
 
 const promiseArr = [ mongoose.connect(process.env.MONGO_DB_URL as string), app.listen(PORT) ];
