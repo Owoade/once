@@ -1,1 +1,1 @@
-web: ts-node index.ts
+web: npm run start2
