@@ -93,6 +93,8 @@ app.post("/payment-webhook-ps", async( req: Request, res: Response )=>{
 
 app.post("/payment-webhook", async( req: Request, res: Response )=>{
   console.log( "Webhook sent from flutterwave");
+  const ref = req.body.txRef;
+  io.to( ref ).emit("transaction-resolved")
   console.log(req.body)
   res.end();
 })
