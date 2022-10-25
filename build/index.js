@@ -65,8 +65,13 @@ app.patch("/update-transaction", (req, res) => __awaiter(void 0, void 0, void 0,
     var _b;
     const update = (_b = req.body) === null || _b === void 0 ? void 0 : _b.update;
     const id = req.body.id;
-    const updatedTransaction = yield transaction_1.default.findByIdAndUpdate(id, update, { new: true });
-    res.json({ message: "successfull" });
+    try {
+        const updatedTransaction = yield transaction_1.default.findByIdAndUpdate(id, update, { new: true });
+        res.json({ message: "successfull" });
+    }
+    catch (e) {
+        res.json({ message: "failed" });
+    }
 }));
 app.post("/payment-webhook-ps", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("Webhook sent from paystack");

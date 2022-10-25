@@ -75,8 +75,12 @@ app.patch( "/update-transaction", async( req: Request, res: Response )=>{
   const update = req.body?.update;
   const id = req.body.id;
 
-  const updatedTransaction = await Transaction.findByIdAndUpdate( id, update, { new: true });
+  try{
+    const updatedTransaction = await Transaction.findByIdAndUpdate( id, update, { new: true });
   res.json({ message: "successfull" })
+  } catch(e){
+    res.json({ message: "failed" })
+  }
 })
 
 app.post("/payment-webhook-ps", async( req: Request, res: Response )=>{
