@@ -34,7 +34,7 @@ class Once {
             const checkoutDetails = {
                 message: "checkout link created",
                 transaction_ref: transactionReference,
-                url: `https://checkout.once.com/${savedTransaction.id}`,
+                url: `http://localhost:5500/${savedTransaction.id}`,
             };
             return checkoutDetails;
         });
