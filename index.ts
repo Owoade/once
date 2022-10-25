@@ -68,10 +68,14 @@ app.post("/payment-webhook", async( req: Request, res: Response )=>{
   res.end();
 })
 
-const promiseArr = [ mongoose.connect(process.env.MONGO_DB_URL as string), app.listen(PORT) ];
+// const promiseArr = [ mongoose.connect(process.env.MONGO_DB_URL as string), app.listen(PORT) ];
 
-Promise.all( promiseArr )
-.then( ()=> console.log("Server is up and running") )
+// Promise.all( promiseArr )
+// .then( ()=> console.log("Server is up and running") )
 
 
+mongoose.connect(process.env.MONGO_DB_URL as string)
+.then( ()=> console.log("Mongo is live"));
+
+app.listen(PORT, ()=> console.log("APP is live"))
 
