@@ -41,7 +41,6 @@ io.on("connection", (socket) => {
     socket.on("transaction-resolved", () => {
         console.log("Transaction reolved");
     });
-    socket.emit("transaction-resolved");
 });
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));

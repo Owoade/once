@@ -38,7 +38,6 @@ io.on("connection", ( socket:any )=>{
     console.log("Transaction reolved")
   })
 
-  socket.emit("transaction-resolved")
 })
 
 
