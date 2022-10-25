@@ -9,17 +9,23 @@ import http from "http";
 import { Server } from "socket.io";
 import cors from "cors";
 
+
+
 config(); 
 
 const app = express();
 
 const server = http.createServer(app);
 
-const io = new Server( server );
+const io = new Server( server, {
+  cors:{
+    origin: "*"
+  }
+} );
 
-// const transactionNamspace = io.of("/transaction");
+const transactionNamspace = io.of("/transaction");
 
-io.on("connection", ( socket )=>{
+io.on("connection", ( socket:any )=>{
   console.log(" socket connected ")
   socket.on( "transaction-init", ( transactionRef: string )=>{
     socket.join(transactionRef)
@@ -92,5 +98,5 @@ app.post("/payment-webhook", async( req: Request, res: Response )=>{
 mongoose.connect(process.env.MONGO_DB_URL as string)
 .then( ()=> console.log("Mongo is live"));
 
-app.listen(PORT, ()=> console.log("APP is live"))
+server.listen(PORT).on("listening" , ()=> console.log("APP is live"))
 

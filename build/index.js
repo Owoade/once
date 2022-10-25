@@ -24,8 +24,12 @@ const cors_1 = __importDefault(require("cors"));
 (0, dotenv_1.config)();
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
-const io = new socket_io_1.Server(server);
-// const transactionNamspace = io.of("/transaction");
+const io = new socket_io_1.Server(server, {
+    cors: {
+        origin: "*"
+    }
+});
+const transactionNamspace = io.of("/transaction");
 io.on("connection", (socket) => {
     console.log(" socket connected ");
     socket.on("transaction-init", (transactionRef) => {
@@ -79,4 +83,4 @@ app.post("/payment-webhook", (req, res) => __awaiter(void 0, void 0, void 0, fun
 // .then( ()=> console.log("Server is up and running") )
 mongoose_1.default.connect(process.env.MONGO_DB_URL)
     .then(() => console.log("Mongo is live"));
-app.listen(PORT, () => console.log("APP is live"));
+server.listen(PORT).on("listening", () => console.log("APP is live"));
