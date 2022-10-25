@@ -8,6 +8,7 @@ import Transaction from "./models/transaction";
 import http from "http";
 import { Server } from "socket.io";
 import cors from "cors";
+import Events from "events"
 
 
 
@@ -25,15 +26,19 @@ const io = new Server( server, {
 
 const transactionNamspace = io.of("/transaction");
 
+const soccketInstance = new Events();
+
 io.on("connection", ( socket:any )=>{
   console.log(" socket connected ")
   socket.on( "transaction-init", ( transactionRef: string )=>{
     socket.join(transactionRef)
-    console.log("joined transaction room")
+    console.log("joined transaction room");
   })
   socket.on("transaction-resolved", ()=>{
     console.log("Transaction reolved")
   })
+
+  socket.emit("transaction-resolved")
 })
 
 
