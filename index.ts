@@ -49,6 +49,10 @@ app.post("/init", async( req: Request, res: Response )=>{
 
 })
 
+app.get("/transaction" , async( req: Request, res: Response )=>{
+  res.end()
+})
+
 app.get("/checkout", async( req: Request, res: Response )=>{
   const { provider, id } = req.query;
 
