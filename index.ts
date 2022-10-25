@@ -6,7 +6,8 @@ import { config } from "dotenv";
 import { OnceProvider } from "./sdks/once";
 import Transaction from "./models/transaction";
 import http from "http";
-import { Server } from "socket.io"
+import { Server } from "socket.io";
+import cors from "cors";
 
 config(); 
 
@@ -29,6 +30,10 @@ transactionNamspace.on("connection", ( socket )=>{
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use(cors({
+  origin: "*"
+}))
 
 const PORT = process.env.PORT ?? 3000 ;
 
