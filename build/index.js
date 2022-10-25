@@ -30,6 +30,10 @@ transactionNamspace.on("connection", (socket) => {
     console.log(" socket connected ");
     socket.on("transaction-init", (transactionRef) => {
         socket.join(transactionRef);
+        console.log("joined transaction room");
+    });
+    socket.on("transaction-resolved", () => {
+        console.log("Transaction reolved");
     });
 });
 app.use(express_1.default.json());
@@ -57,6 +61,8 @@ app.patch("/update-transaction", (req, res) => __awaiter(void 0, void 0, void 0,
 }));
 app.post("/payment-webhook-ps", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("Webhook sent from paystack");
+    const ref = req.body.data.reference;
+    transactionNamspace.to(ref).emit("transaction-resolved");
     console.log(req.body);
     res.end();
 }));

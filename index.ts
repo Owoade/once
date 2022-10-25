@@ -23,6 +23,10 @@ transactionNamspace.on("connection", ( socket )=>{
   console.log(" socket connected ")
   socket.on( "transaction-init", ( transactionRef: string )=>{
     socket.join(transactionRef)
+    console.log("joined transaction room")
+  })
+  socket.on("transaction-resolved", ()=>{
+    console.log("Transaction reolved")
   })
 })
 
@@ -62,7 +66,9 @@ app.patch( "/update-transaction", async( req: Request, res: Response )=>{
 })
 
 app.post("/payment-webhook-ps", async( req: Request, res: Response )=>{
-  console.log( "Webhook sent from paystack")
+  console.log( "Webhook sent from paystack");
+  const ref = req.body.data.reference;
+  transactionNamspace.to( ref ).emit("transaction-resolved")
   console.log( req.body )
   res.end();
 })
