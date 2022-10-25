@@ -17,9 +17,9 @@ const server = http.createServer(app);
 
 const io = new Server( server );
 
-const transactionNamspace = io.of("/transaction");
+// const transactionNamspace = io.of("/transaction");
 
-transactionNamspace.on("connection", ( socket )=>{
+io.on("connection", ( socket )=>{
   console.log(" socket connected ")
   socket.on( "transaction-init", ( transactionRef: string )=>{
     socket.join(transactionRef)
@@ -72,7 +72,7 @@ app.patch( "/update-transaction", async( req: Request, res: Response )=>{
 app.post("/payment-webhook-ps", async( req: Request, res: Response )=>{
   console.log( "Webhook sent from paystack");
   const ref = req.body.data.reference;
-  transactionNamspace.to( ref ).emit("transaction-resolved")
+  io.to( ref ).emit("transaction-resolved")
   console.log( req.body )
   res.end();
 })

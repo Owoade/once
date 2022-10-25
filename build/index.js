@@ -25,8 +25,8 @@ const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
 const io = new socket_io_1.Server(server);
-const transactionNamspace = io.of("/transaction");
-transactionNamspace.on("connection", (socket) => {
+// const transactionNamspace = io.of("/transaction");
+io.on("connection", (socket) => {
     console.log(" socket connected ");
     socket.on("transaction-init", (transactionRef) => {
         socket.join(transactionRef);
@@ -47,6 +47,9 @@ app.post("/init", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const checkout = yield initializer_1.once.initialize(parseInt(amount));
     res.json(checkout);
 }));
+app.get("/transaction", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.end();
+}));
 app.get("/checkout", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { provider, id } = req.query;
     const providerCheckout = yield initializer_1.once.getProviderCheckout(provider, id);
@@ -62,7 +65,7 @@ app.patch("/update-transaction", (req, res) => __awaiter(void 0, void 0, void 0,
 app.post("/payment-webhook-ps", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("Webhook sent from paystack");
     const ref = req.body.data.reference;
-    transactionNamspace.to(ref).emit("transaction-resolved");
+    io.to(ref).emit("transaction-resolved");
     console.log(req.body);
     res.end();
 }));
