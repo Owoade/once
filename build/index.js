@@ -21,6 +21,7 @@ const transaction_1 = __importDefault(require("./models/transaction"));
 const http_1 = __importDefault(require("http"));
 const socket_io_1 = require("socket.io");
 const cors_1 = __importDefault(require("cors"));
+const events_1 = __importDefault(require("events"));
 (0, dotenv_1.config)();
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
@@ -30,6 +31,7 @@ const io = new socket_io_1.Server(server, {
     }
 });
 const transactionNamspace = io.of("/transaction");
+const soccketInstance = new events_1.default();
 io.on("connection", (socket) => {
     console.log(" socket connected ");
     socket.on("transaction-init", (transactionRef) => {
@@ -39,6 +41,7 @@ io.on("connection", (socket) => {
     socket.on("transaction-resolved", () => {
         console.log("Transaction reolved");
     });
+    socket.emit("transaction-resolved");
 });
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
