@@ -8,7 +8,7 @@ import { FlutterWaveTransactionInit } from "./flutterwave";
 import { flutterwave, paystack } from "./initializer";
 
 export class Once {
-  private readonly redirectUrl = "https://checkout.once.com/verify";
+  private readonly redirectUrl = "http://localhost:3000/done";
 
   async initialize(amount: number, host: string) {
     

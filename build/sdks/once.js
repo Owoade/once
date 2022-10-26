@@ -18,7 +18,7 @@ const transaction_1 = __importDefault(require("../models/transaction"));
 const initializer_1 = require("./initializer");
 class Once {
     constructor() {
-        this.redirectUrl = "https://checkout.once.com/verify";
+        this.redirectUrl = "http://localhost:3000/done";
     }
     initialize(amount, host) {
         return __awaiter(this, void 0, void 0, function* () {
