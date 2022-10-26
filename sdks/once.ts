@@ -30,7 +30,7 @@ export class Once {
     const checkoutDetails = {
       message: "checkout link created",
       transaction_ref: transactionReference,
-      url: `http://localhost:5500/?${savedTransaction.id}==${transactionReference}==${host}`,
+      url: `http://localhost:3000/?${savedTransaction.id}==${transactionReference}==${host}`,
     };
 
     return checkoutDetails as OnceInitialize;
