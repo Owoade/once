@@ -52,8 +52,8 @@ app.use(cors({
 const PORT = process.env.PORT ?? 3000 ;
 
 app.post("/init", async( req: Request, res: Response )=>{
-  const { amount } = req.body;
-  const checkout = await once.initialize( parseInt(amount) );
+  const { amount, host } = req.body;
+  const checkout = await once.initialize( parseInt(amount), host );
 
   res.json( checkout )
 

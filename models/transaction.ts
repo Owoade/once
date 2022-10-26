@@ -5,6 +5,10 @@ const transactionSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    host: {
+        type: String,
+        required: true
+    },
     name: {
         type: String
     },

@@ -20,13 +20,14 @@ class Once {
     constructor() {
         this.redirectUrl = "https://checkout.once.com/verify";
     }
-    initialize(amount) {
+    initialize(amount, host) {
         return __awaiter(this, void 0, void 0, function* () {
             const transactionReference = node_crypto_1.default.randomUUID();
             const data = {
                 ref: transactionReference,
                 amount,
                 status: "pending",
+                host
             };
             const transaction = new transaction_1.default(data);
             const savedTransaction = yield transaction.save();
@@ -34,7 +35,7 @@ class Once {
             const checkoutDetails = {
                 message: "checkout link created",
                 transaction_ref: transactionReference,
-                url: `http://localhost:5500/?${savedTransaction.id}==${transactionReference}`,
+                url: `http://localhost:5500/?${savedTransaction.id}==${transactionReference}==${host}`,
             };
             return checkoutDetails;
         });

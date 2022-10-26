@@ -10,7 +10,7 @@ import { flutterwave, paystack } from "./initializer";
 export class Once {
   private readonly redirectUrl = "https://checkout.once.com/verify";
 
-  async initialize(amount: number) {
+  async initialize(amount: number, host: string) {
     
     const transactionReference = crypto.randomUUID();
 
@@ -18,6 +18,7 @@ export class Once {
       ref: transactionReference,
       amount,
       status: "pending",
+      host
     };
 
     const transaction = new Transaction(data);
@@ -29,7 +30,7 @@ export class Once {
     const checkoutDetails = {
       message: "checkout link created",
       transaction_ref: transactionReference,
-      url: `http://localhost:5500/?${savedTransaction.id}==${transactionReference}`,
+      url: `http://localhost:5500/?${savedTransaction.id}==${transactionReference}==${host}`,
     };
 
     return checkoutDetails as OnceInitialize;
