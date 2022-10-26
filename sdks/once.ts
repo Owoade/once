@@ -8,7 +8,7 @@ import { FlutterWaveTransactionInit } from "./flutterwave";
 import { flutterwave, paystack } from "./initializer";
 
 export class Once {
-  private readonly redirectUrl = "http://localhost:3000/done";
+  private readonly redirectUrl = "https://once-checkout.vercel.app/done";
 
   async initialize(amount: number, host: string) {
     
@@ -30,7 +30,7 @@ export class Once {
     const checkoutDetails = {
       message: "checkout link created",
       transaction_ref: transactionReference,
-      url: `http://localhost:3000/?${savedTransaction.id}==${transactionReference}==${host}`,
+      url: `https://once-checkout.vercel.app/?${savedTransaction.id}==${transactionReference}==${host}`,
     };
 
     return checkoutDetails as OnceInitialize;
