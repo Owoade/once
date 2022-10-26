@@ -18,7 +18,7 @@ const transaction_1 = __importDefault(require("../models/transaction"));
 const initializer_1 = require("./initializer");
 class Once {
     constructor() {
-        this.redirectUrl = "http://localhost:3000/done";
+        this.redirectUrl = "https://once-checkout.vercel.app/done";
     }
     initialize(amount, host) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -35,7 +35,7 @@ class Once {
             const checkoutDetails = {
                 message: "checkout link created",
                 transaction_ref: transactionReference,
-                url: `http://localhost:3000/?${savedTransaction.id}==${transactionReference}==${host}`,
+                url: `https://once-checkout.vercel.app/?${savedTransaction.id}==${transactionReference}==${host}`,
             };
             return checkoutDetails;
         });
