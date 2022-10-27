@@ -59,9 +59,6 @@ app.post("/init", async( req: Request, res: Response )=>{
 
 })
 
-app.get("/transaction" , async( req: Request, res: Response )=>{
-  res.end()
-})
 
 app.get("/checkout", async( req: Request, res: Response )=>{
   const { provider, id } = req.query;
@@ -86,7 +83,7 @@ app.patch( "/update-transaction", async( req: Request, res: Response )=>{
 app.post("/payment-webhook-ps", async( req: Request, res: Response )=>{
   console.log( "Webhook sent from paystack");
   const ref = req.body.data.reference;
-  io.to( ref ).emit("transaction-resolved")
+  transactionNamspace.to( ref ).emit("transaction-resolved")
   console.log( req.body )
   res.end();
 })
@@ -94,7 +91,7 @@ app.post("/payment-webhook-ps", async( req: Request, res: Response )=>{
 app.post("/payment-webhook", async( req: Request, res: Response )=>{
   console.log( "Webhook sent from flutterwave");
   const ref = req.body.txRef;
-  io.to( ref ).emit("transaction-resolved")
+  transactionNamspace.to( ref ).emit("transaction-resolved")
   console.log(req.body)
   res.end();
 })

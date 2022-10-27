@@ -53,9 +53,6 @@ app.post("/init", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const checkout = yield initializer_1.once.initialize(parseInt(amount), host);
     res.json(checkout);
 }));
-app.get("/transaction", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.end();
-}));
 app.get("/checkout", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { provider, id } = req.query;
     const providerCheckout = yield initializer_1.once.getProviderCheckout(provider, id);
@@ -76,14 +73,14 @@ app.patch("/update-transaction", (req, res) => __awaiter(void 0, void 0, void 0,
 app.post("/payment-webhook-ps", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("Webhook sent from paystack");
     const ref = req.body.data.reference;
-    io.to(ref).emit("transaction-resolved");
+    transactionNamspace.to(ref).emit("transaction-resolved");
     console.log(req.body);
     res.end();
 }));
 app.post("/payment-webhook", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("Webhook sent from flutterwave");
     const ref = req.body.txRef;
-    io.to(ref).emit("transaction-resolved");
+    transactionNamspace.to(ref).emit("transaction-resolved");
     console.log(req.body);
     res.end();
 }));
