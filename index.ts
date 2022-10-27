@@ -28,7 +28,7 @@ const transactionNamspace = io.of("/transaction");
 
 const soccketInstance = new Events();
 
-io.on("connection", ( socket:any )=>{
+transactionNamspace.on("connection", ( socket:any )=>{
   console.log(" socket connected ")
   socket.on( "transaction-init", ( transactionRef: string )=>{
     socket.join(transactionRef)

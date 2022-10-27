@@ -32,7 +32,7 @@ const io = new socket_io_1.Server(server, {
 });
 const transactionNamspace = io.of("/transaction");
 const soccketInstance = new events_1.default();
-io.on("connection", (socket) => {
+transactionNamspace.on("connection", (socket) => {
     console.log(" socket connected ");
     socket.on("transaction-init", (transactionRef) => {
         socket.join(transactionRef);
