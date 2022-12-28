@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Once = void 0;
-const node_crypto_1 = __importDefault(require("node:crypto"));
+const crypto_1 = __importDefault(require("crypto"));
 const transaction_1 = __importDefault(require("../models/transaction"));
 const initializer_1 = require("./initializer");
 class Once {
@@ -22,7 +22,7 @@ class Once {
     }
     initialize(amount, host) {
         return __awaiter(this, void 0, void 0, function* () {
-            const transactionReference = node_crypto_1.default.randomUUID();
+            const transactionReference = crypto_1.default.randomUUID();
             const data = {
                 ref: transactionReference,
                 amount,
