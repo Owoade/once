@@ -42,7 +42,7 @@ export class Once {
     if (providerKey === "FLW") {
       const flutterwavePayload = {
         tx_ref: transaction?.ref,
-        amount: transaction?.amount.toString(),
+        amount: (transaction?.amount!/100).toString(),
         currency: "NGN",
         redirect_url: this.redirectUrl,
         customer: {
@@ -65,7 +65,7 @@ export class Once {
     }
 
     const paystackPayload: InitializeTransaction = {
-      amount: transaction?.amount.toString() as string,
+      amount: transaction?.amount!.toString() as string,
       email: transaction?.email as string,
       currency: "NGN",
       callback_url: this.redirectUrl,

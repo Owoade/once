@@ -29,7 +29,7 @@ const transactionNamspace = io.of("/transaction");
 const soccketInstance = new Events();
 
 transactionNamspace.on("connection", ( socket:any )=>{
-  console.log(" socket connected ")
+  console.log("socket connected ")
   socket.on( "transaction-init", ( transactionRef: string )=>{
     socket.join(transactionRef)
     console.log("joined transaction room");

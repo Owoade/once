@@ -47,7 +47,7 @@ class Once {
             if (providerKey === "FLW") {
                 const flutterwavePayload = {
                     tx_ref: transaction === null || transaction === void 0 ? void 0 : transaction.ref,
-                    amount: transaction === null || transaction === void 0 ? void 0 : transaction.amount.toString(),
+                    amount: ((transaction === null || transaction === void 0 ? void 0 : transaction.amount) / 100).toString(),
                     currency: "NGN",
                     redirect_url: this.redirectUrl,
                     customer: {
