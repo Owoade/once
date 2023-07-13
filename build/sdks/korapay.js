@@ -30,6 +30,7 @@ class KoraPay {
             const transaction = yield axios_1.default.post(`${this.BASE_URL}/charges/initialize`, payload, {
                 headers
             });
+            console.log(transaction.data);
             return transaction.data;
         });
     }
