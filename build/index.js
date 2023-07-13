@@ -86,8 +86,8 @@ app.post("/payment-webhook", (req, res) => __awaiter(void 0, void 0, void 0, fun
 }));
 app.post("/payment-webhook-kp", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const payload = req.body;
-    console.log(payload);
     if (payload.event === 'charge.success') {
+        console.log(payload);
         transactionNamspace.to(payload.data.reference);
     }
     res.end();

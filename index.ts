@@ -101,9 +101,9 @@ app.post("/payment-webhook-kp", async( req: Request, res: Response )=>{
 
   const payload = req.body;
 
-  console.log(payload)
-
   if( payload.event === 'charge.success' ){
+
+    console.log(payload)
 
     transactionNamspace.to(payload.data.reference)
 
