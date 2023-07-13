@@ -71,7 +71,7 @@ export class Once {
 
       const korapayPayload = {
         reference: transaction?.ref as string,
-        notification_url: "https://api.checkoutonce//payment-webhook-kp",
+        notification_url: "https://api.checkoutonce/payment-webhook-kp",
         customer: {
           email: transaction?.email as string,
           name: transaction!.name as string
