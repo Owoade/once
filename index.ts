@@ -9,6 +9,7 @@ import http from "http";
 import { Server } from "socket.io";
 import cors from "cors";
 import Events from "events"
+import { channel } from "node:diagnostics_channel";
 
 
 
@@ -94,6 +95,20 @@ app.post("/payment-webhook", async( req: Request, res: Response )=>{
   transactionNamspace.to( ref ).emit("transaction-resolved")
   console.log(req.body)
   res.end();
+})
+
+app.post("/payment-webhook-kp", async( req: Request, res: Response )=>{
+
+  const payload = req.body;
+
+  console.log(payload)
+
+  if( payload.event === 'charge.success' ){
+
+    transactionNamspace.to(payload.data.reference)
+
+  }
+  
 })
 
 // const promiseArr = [ mongoose.connect(process.env.MONGO_DB_URL as string), app.listen(PORT) ];

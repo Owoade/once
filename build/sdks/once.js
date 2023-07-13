@@ -18,7 +18,7 @@ const transaction_1 = __importDefault(require("../models/transaction"));
 const initializer_1 = require("./initializer");
 class Once {
     constructor() {
-        this.redirectUrl = "https://once-checkout.vercel.app/done";
+        this.redirectUrl = "https://www.checkoutonce.com/done";
     }
     initialize(amount, host) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -35,7 +35,7 @@ class Once {
             const checkoutDetails = {
                 message: "checkout link created",
                 transaction_ref: transactionReference,
-                url: `https://once-checkout.vercel.app/?${savedTransaction.id}==${transactionReference}==${host}`,
+                url: `https://owww.checkoutonce.com/?${savedTransaction.id}==${transactionReference}==${host}`,
             };
             return checkoutDetails;
         });
@@ -62,6 +62,26 @@ class Once {
                     provider_ref: transaction === null || transaction === void 0 ? void 0 : transaction.ref,
                 };
                 return flutterwaveCheckoutObject;
+            }
+            if (providerKey === "KRP") {
+                const korapayPayload = {
+                    reference: transaction === null || transaction === void 0 ? void 0 : transaction.ref,
+                    notification_url: "https://api.checkoutonce//payment-webhook-kp",
+                    customer: {
+                        email: transaction === null || transaction === void 0 ? void 0 : transaction.email,
+                        name: transaction.name
+                    },
+                    amount: transaction === null || transaction === void 0 ? void 0 : transaction.amount,
+                    currency: "NGN",
+                    redirect_url: this.redirectUrl
+                };
+                const korapayCheckout = yield initializer_1.korapay.initiate(korapayPayload);
+                const korapayCheckoutObject = {
+                    provider: "KRP",
+                    provider_ref: transaction === null || transaction === void 0 ? void 0 : transaction.ref,
+                    provider_url: korapayCheckout.checkout_url
+                };
+                return korapayCheckoutObject;
             }
             const paystackPayload = {
                 amount: transaction === null || transaction === void 0 ? void 0 : transaction.amount.toString(),
@@ -90,6 +110,7 @@ class Once {
         const provider = {
             FLW: "flutterwave",
             PST: "paystack",
+            KRP: "korapay"
         };
         return provider[provderKey];
     }

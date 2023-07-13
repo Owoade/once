@@ -5,10 +5,12 @@ import {
 } from "paystack-sdk/dist/transaction/interface";
 import Transaction from "../models/transaction";
 import { FlutterWaveTransactionInit } from "./flutterwave";
-import { flutterwave, paystack } from "./initializer";
+import { flutterwave, korapay, paystack } from "./initializer";
+import { KoraPayInitiateTransaction } from "./korapay";
 
 export class Once {
-  private readonly redirectUrl = "https://once-checkout.vercel.app/done";
+
+  private readonly redirectUrl = "https://www.checkoutonce.com/done";
 
   async initialize(amount: number, host: string) {
     
@@ -30,7 +32,7 @@ export class Once {
     const checkoutDetails = {
       message: "checkout link created",
       transaction_ref: transactionReference,
-      url: `https://once-checkout.vercel.app/?${savedTransaction.id}==${transactionReference}==${host}`,
+      url: `https://owww.checkoutonce.com/?${savedTransaction.id}==${transactionReference}==${host}`,
     };
 
     return checkoutDetails as OnceInitialize;
@@ -40,6 +42,7 @@ export class Once {
     const transaction = await Transaction.findById(id);
 
     if (providerKey === "FLW") {
+
       const flutterwavePayload = {
         tx_ref: transaction?.ref,
         amount: (transaction?.amount!/100).toString(),
@@ -62,6 +65,32 @@ export class Once {
       };
 
       return flutterwaveCheckoutObject as OnceCheckout;
+    }
+
+    if( providerKey === "KRP" ){
+
+      const korapayPayload = {
+        reference: transaction?.ref as string,
+        notification_url: "https://api.checkoutonce//payment-webhook-kp",
+        customer: {
+          email: transaction?.email as string,
+          name: transaction!.name as string
+        },
+        amount: transaction?.amount as number,
+        currency: "NGN",
+        redirect_url: this.redirectUrl
+      } as KoraPayInitiateTransaction
+
+      const korapayCheckout = await korapay.initiate(korapayPayload);
+
+      const korapayCheckoutObject = {
+        provider: "KRP",
+        provider_ref: transaction?.ref,
+        provider_url: korapayCheckout.checkout_url
+      } 
+
+      return korapayCheckoutObject as OnceCheckout;
+
     }
 
     const paystackPayload: InitializeTransaction = {
@@ -100,6 +129,7 @@ export class Once {
     const provider: Record<OnceProvider, string> = {
       FLW: "flutterwave",
       PST: "paystack",
+      KRP: "korapay"
     };
 
     return provider[provderKey];
@@ -107,7 +137,7 @@ export class Once {
   
 }
 
-export type OnceProvider = "FLW" | "PST";
+export type OnceProvider = "FLW" | "PST" | "KRP";
 
 interface OnceInitialize {
   message: string;

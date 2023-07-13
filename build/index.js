@@ -84,6 +84,13 @@ app.post("/payment-webhook", (req, res) => __awaiter(void 0, void 0, void 0, fun
     console.log(req.body);
     res.end();
 }));
+app.post("/payment-webhook-kp", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const payload = req.body;
+    console.log(payload);
+    if (payload.event === 'charge.success') {
+        transactionNamspace.to(payload.data.reference);
+    }
+}));
 // const promiseArr = [ mongoose.connect(process.env.MONGO_DB_URL as string), app.listen(PORT) ];
 // Promise.all( promiseArr )
 // .then( ()=> console.log("Server is up and running") )
