@@ -105,7 +105,7 @@ app.post("/payment-webhook-kp", async( req: Request, res: Response )=>{
 
     console.log(payload)
 
-    transactionNamspace.to(payload.data.reference)
+    transactionNamspace.to(payload.data.reference).emit("transaction-resolved")
 
   }
 
