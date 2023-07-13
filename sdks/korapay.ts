@@ -33,7 +33,7 @@ export default class KoraPay {
 
         console.log(transaction.data);
 
-        return transaction.data as KoraPayTransactionInitialized;
+        return transaction.data.data as KoraPayTransactionInitialized;
 
     }
 

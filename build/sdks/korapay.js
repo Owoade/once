@@ -31,7 +31,7 @@ class KoraPay {
                 headers
             });
             console.log(transaction.data);
-            return transaction.data;
+            return transaction.data.data;
         });
     }
 }
