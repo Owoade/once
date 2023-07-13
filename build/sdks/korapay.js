@@ -26,6 +26,7 @@ class KoraPay {
             const headers = {
                 Authorization: `Bearer ${this.SECRET_KEY}`
             };
+            payload.amount /= 100;
             const transaction = yield axios_1.default.post(`${this.BASE_URL}/charges/initialize`, payload, {
                 headers
             });
