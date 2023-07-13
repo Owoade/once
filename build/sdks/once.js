@@ -66,7 +66,7 @@ class Once {
             if (providerKey === "KRP") {
                 const korapayPayload = {
                     reference: transaction === null || transaction === void 0 ? void 0 : transaction.ref,
-                    notification_url: "https://api.checkoutonce/payment-webhook-kp",
+                    notification_url: "https://api.checkoutonce.com/payment-webhook-kp",
                     customer: {
                         email: transaction === null || transaction === void 0 ? void 0 : transaction.email,
                         name: transaction.name

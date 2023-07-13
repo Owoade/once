@@ -90,6 +90,7 @@ app.post("/payment-webhook-kp", (req, res) => __awaiter(void 0, void 0, void 0, 
     if (payload.event === 'charge.success') {
         transactionNamspace.to(payload.data.reference);
     }
+    res.end();
 }));
 // const promiseArr = [ mongoose.connect(process.env.MONGO_DB_URL as string), app.listen(PORT) ];
 // Promise.all( promiseArr )

@@ -108,7 +108,9 @@ app.post("/payment-webhook-kp", async( req: Request, res: Response )=>{
     transactionNamspace.to(payload.data.reference)
 
   }
-  
+
+  res.end()
+
 })
 
 // const promiseArr = [ mongoose.connect(process.env.MONGO_DB_URL as string), app.listen(PORT) ];
