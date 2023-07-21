@@ -71,15 +71,16 @@ class Once {
                         email: transaction === null || transaction === void 0 ? void 0 : transaction.email,
                         name: transaction.name
                     },
+                    narration: "A charge",
                     amount: transaction === null || transaction === void 0 ? void 0 : transaction.amount,
                     currency: "NGN",
                     redirect_url: this.redirectUrl
                 };
-                const korapayCheckout = yield initializer_1.korapay.initiate(korapayPayload);
+                const korapayCheckout = yield initializer_1.korapay.charge.initialize(korapayPayload);
                 const korapayCheckoutObject = {
                     provider: "KRP",
                     provider_ref: transaction === null || transaction === void 0 ? void 0 : transaction.ref,
-                    provider_url: korapayCheckout.checkout_url
+                    provider_url: korapayCheckout.data.checkout_url
                 };
                 return korapayCheckoutObject;
             }

@@ -6,7 +6,7 @@ import {
 import Transaction from "../models/transaction";
 import { FlutterWaveTransactionInit } from "./flutterwave";
 import { flutterwave, korapay, paystack } from "./initializer";
-import { KoraPayInitiateTransaction } from "./korapay";
+
 
 export class Once {
 
@@ -69,6 +69,8 @@ export class Once {
 
     if( providerKey === "KRP" ){
 
+      type init_charge_payload_type = Parameters< typeof korapay.charge.initialize>[0]
+
       const korapayPayload = {
         reference: transaction?.ref as string,
         notification_url: "https://api.checkoutonce.com/payment-webhook-kp",
@@ -76,17 +78,18 @@ export class Once {
           email: transaction?.email as string,
           name: transaction!.name as string
         },
+        narration: "A charge",
         amount: transaction?.amount as number,
         currency: "NGN",
         redirect_url: this.redirectUrl
-      } as KoraPayInitiateTransaction
+      }  as init_charge_payload_type
 
-      const korapayCheckout = await korapay.initiate(korapayPayload);
+      const korapayCheckout = await korapay.charge.initialize(korapayPayload);
 
       const korapayCheckoutObject = {
         provider: "KRP",
         provider_ref: transaction?.ref,
-        provider_url: korapayCheckout.checkout_url
+        provider_url: korapayCheckout.data.checkout_url
       } 
 
       return korapayCheckoutObject as OnceCheckout;
