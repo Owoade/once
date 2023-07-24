@@ -84,6 +84,8 @@ export class Once {
 
       const korapayCheckout = await korapay.charge.initialize(korapayPayload);
 
+      console.log( korapayCheckout );
+      
       const korapayCheckoutObject = {
         provider: "KRP",
         provider_ref: transaction?.ref,

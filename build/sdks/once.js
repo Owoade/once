@@ -78,6 +78,7 @@ class Once {
                     narration: "Charge"
                 };
                 const korapayCheckout = yield initializer_1.korapay.charge.initialize(korapayPayload);
+                console.log(korapayCheckout);
                 const korapayCheckoutObject = {
                     provider: "KRP",
                     provider_ref: transaction === null || transaction === void 0 ? void 0 : transaction.ref,
