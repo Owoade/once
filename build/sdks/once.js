@@ -72,13 +72,12 @@ class Once {
                         email: transaction === null || transaction === void 0 ? void 0 : transaction.email,
                         name: transaction.name
                     },
-                    amount: transaction === null || transaction === void 0 ? void 0 : transaction.amount,
+                    amount: (transaction === null || transaction === void 0 ? void 0 : transaction.amount) / 100,
                     currency: "NGN",
                     redirect_url: this.redirectUrl,
                     narration: "Charge"
                 };
                 const korapayCheckout = yield initializer_1.korapay.charge.initialize(korapayPayload);
-                console.log(korapayCheckout);
                 const korapayCheckoutObject = {
                     provider: "KRP",
                     provider_ref: transaction === null || transaction === void 0 ? void 0 : transaction.ref,

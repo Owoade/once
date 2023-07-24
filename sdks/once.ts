@@ -76,7 +76,7 @@ export class Once {
           email: transaction?.email as string,
           name: transaction!.name as string
         },
-        amount: transaction?.amount as number,
+        amount: (transaction?.amount!) / 100 as number,
         currency: "NGN",
         redirect_url: this.redirectUrl,
         narration: "Charge"
@@ -84,8 +84,6 @@ export class Once {
 
       const korapayCheckout = await korapay.charge.initialize(korapayPayload);
 
-      console.log( korapayCheckout );
-      
       const korapayCheckoutObject = {
         provider: "KRP",
         provider_ref: transaction?.ref,
