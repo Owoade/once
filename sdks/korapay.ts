@@ -1,60 +1,60 @@
-import axios from "axios";
-import { config } from "dotenv";
+// import axios from "axios";
+// import { config } from "dotenv";
 
-export default class KoraPay {
+// export default class KoraPay {
 
-    private readonly SECRET_KEY: string;
+//     private readonly SECRET_KEY: string;
 
-    private readonly BASE_URL: string;
+//     private readonly BASE_URL: string;
 
-    constructor(){
+//     constructor(){
 
-        config();
+//         config();
 
-        this.BASE_URL = "https://api.korapay.com/merchant/api/v1";
+//         this.BASE_URL = "https://api.korapay.com/merchant/api/v1";
 
-        this.SECRET_KEY = process.env.KORAPAY_SECRET_KEY as string;
+//         this.SECRET_KEY = process.env.KORAPAY_SECRET_KEY as string;
 
-        this.initiate = this.initiate.bind(this);
+//         this.initiate = this.initiate.bind(this);
 
-    }
+//     }
 
-    async initiate( payload: KoraPayInitiateTransaction ){
+//     async initiate( payload: KoraPayInitiateTransaction ){
 
-        const headers = {
-            Authorization: `Bearer ${this.SECRET_KEY}`
-        }
+//         const headers = {
+//             Authorization: `Bearer ${this.SECRET_KEY}`
+//         }
 
-        payload.amount /= 100;
+//         payload.amount /= 100;
 
-        const transaction = await axios.post(`${this.BASE_URL}/charges/initialize`, payload, {
-            headers
-        })
+//         const transaction = await axios.post(`${this.BASE_URL}/charges/initialize`, payload, {
+//             headers
+//         })
 
-        console.log(transaction.data);
+//         console.log(transaction.data);
 
-        return transaction.data.data as KoraPayTransactionInitialized;
+//         return transaction.data.data as KoraPayTransactionInitialized;
 
-    }
+//     }
 
    
 
 
-}
+// }
 
-export interface KoraPayInitiateTransaction {
-    amount: number
-    redirect_url: string,
-    currency: "NGN",
-    reference: string;
-    notification_url: string;
-    customer: {
-        email: string,
-        name: string
-    }
-}
+// export interface KoraPayInitiateTransaction {
+//     amount: number
+//     redirect_url: string,
+//     currency: "NGN",
+//     reference: string;
+//     notification_url: string;
+//     customer: {
+//         email: string,
+//         name: string
+//     }
+// }
 
-interface KoraPayTransactionInitialized {
-    reference: string,
-    checkout_url: string;
-}
+// interface KoraPayTransactionInitialized {
+//     reference: string,
+//     checkout_url: string;
+// }

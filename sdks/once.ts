@@ -6,7 +6,7 @@ import {
 import Transaction from "../models/transaction";
 import { FlutterWaveTransactionInit } from "./flutterwave";
 import { flutterwave, korapay, paystack } from "./initializer";
-import { KoraPayInitiateTransaction } from "./korapay";
+// import { KoraPayInitiateTransaction } from "./korapay";
 
 export class Once {
 
@@ -78,15 +78,16 @@ export class Once {
         },
         amount: transaction?.amount as number,
         currency: "NGN",
-        redirect_url: this.redirectUrl
-      } as KoraPayInitiateTransaction
+        redirect_url: this.redirectUrl,
+        narration: "Charge"
+      } 
 
-      const korapayCheckout = await korapay.initiate(korapayPayload);
+      const korapayCheckout = await korapay.charge.initialize(korapayPayload);
 
       const korapayCheckoutObject = {
         provider: "KRP",
         provider_ref: transaction?.ref,
-        provider_url: korapayCheckout.checkout_url
+        provider_url: korapayCheckout.data.checkout_url
       } 
 
       return korapayCheckoutObject as OnceCheckout;

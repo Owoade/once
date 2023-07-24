@@ -16,6 +16,7 @@ exports.Once = void 0;
 const crypto_1 = __importDefault(require("crypto"));
 const transaction_1 = __importDefault(require("../models/transaction"));
 const initializer_1 = require("./initializer");
+// import { KoraPayInitiateTransaction } from "./korapay";
 class Once {
     constructor() {
         this.redirectUrl = "https://www.checkoutonce.com/done";
@@ -73,13 +74,14 @@ class Once {
                     },
                     amount: transaction === null || transaction === void 0 ? void 0 : transaction.amount,
                     currency: "NGN",
-                    redirect_url: this.redirectUrl
+                    redirect_url: this.redirectUrl,
+                    narration: "Charge"
                 };
-                const korapayCheckout = yield initializer_1.korapay.initiate(korapayPayload);
+                const korapayCheckout = yield initializer_1.korapay.charge.initialize(korapayPayload);
                 const korapayCheckoutObject = {
                     provider: "KRP",
                     provider_ref: transaction === null || transaction === void 0 ? void 0 : transaction.ref,
-                    provider_url: korapayCheckout.checkout_url
+                    provider_url: korapayCheckout.data.checkout_url
                 };
                 return korapayCheckoutObject;
             }
