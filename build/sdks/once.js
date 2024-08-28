@@ -19,7 +19,9 @@ const initializer_1 = require("./initializer");
 // import { KoraPayInitiateTransaction } from "./korapay";
 class Once {
     constructor() {
-        this.redirectUrl = "https://www.checkoutonce.com/done";
+        this.apiBaseUrl = "https://once-checkout-api.hamkazefoods.com";
+        this.clientSideUrl = "https://once-checkout-owoade.vercel.app";
+        this.redirectUrl = `${this.clientSideUrl}/done`;
     }
     initialize(amount, host) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -36,7 +38,7 @@ class Once {
             const checkoutDetails = {
                 message: "checkout link created",
                 transaction_ref: transactionReference,
-                url: `https://www.checkoutonce.com/?${savedTransaction.id}==${transactionReference}==${host}`,
+                url: `${this.clientSideUrl}/?${savedTransaction.id}==${transactionReference}==${host}`,
             };
             return checkoutDetails;
         });
@@ -67,7 +69,7 @@ class Once {
             if (providerKey === "KRP") {
                 const korapayPayload = {
                     reference: transaction === null || transaction === void 0 ? void 0 : transaction.ref,
-                    notification_url: "https://api.checkoutonce.com/payment-webhook-kp",
+                    notification_url: `${this.apiBaseUrl}/payment-webhook-kp`,
                     customer: {
                         email: transaction === null || transaction === void 0 ? void 0 : transaction.email,
                         name: transaction.name

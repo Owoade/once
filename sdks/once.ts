@@ -10,7 +10,11 @@ import { flutterwave, korapay, paystack } from "./initializer";
 
 export class Once {
 
-  private readonly redirectUrl = "https://www.checkoutonce.com/done";
+  private apiBaseUrl = "https://once-checkout-api.hamkazefoods.com";
+
+  private clientSideUrl = "https://once-checkout-owoade.vercel.app"
+
+  private readonly redirectUrl = `${this.clientSideUrl}/done`;
 
   async initialize(amount: number, host: string) {
     
@@ -32,7 +36,7 @@ export class Once {
     const checkoutDetails = {
       message: "checkout link created",
       transaction_ref: transactionReference,
-      url: `https://www.checkoutonce.com/?${savedTransaction.id}==${transactionReference}==${host}`,
+      url: `${this.clientSideUrl}/?${savedTransaction.id}==${transactionReference}==${host}`,
     };
 
     return checkoutDetails as OnceInitialize;
@@ -71,7 +75,7 @@ export class Once {
 
       const korapayPayload = {
         reference: transaction?.ref as string,
-        notification_url: "https://api.checkoutonce.com/payment-webhook-kp",
+        notification_url: `${this.apiBaseUrl}/payment-webhook-kp`,
         customer: {
           email: transaction?.email as string,
           name: transaction!.name as string
