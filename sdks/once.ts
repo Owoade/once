@@ -12,7 +12,7 @@ export class Once {
 
   private apiBaseUrl = "https://once-checkout-api.hamkazefoods.com";
 
-  private clientSideUrl = "https://once-checkout-owoade.vercel.app"
+  private clientSideUrl = "https://once-checkout.vercel.app"
 
   private readonly redirectUrl = `${this.clientSideUrl}/done`;
 
