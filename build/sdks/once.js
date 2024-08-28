@@ -20,7 +20,7 @@ const initializer_1 = require("./initializer");
 class Once {
     constructor() {
         this.apiBaseUrl = "https://once-checkout-api.hamkazefoods.com";
-        this.clientSideUrl = "https://once-checkout-owoade.vercel.app";
+        this.clientSideUrl = "https://once-checkout.vercel.app";
         this.redirectUrl = `${this.clientSideUrl}/done`;
     }
     initialize(amount, host) {
